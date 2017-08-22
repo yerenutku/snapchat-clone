@@ -4,6 +4,9 @@
     <!-- A C T I V I T I E S -->
     <string name="activity_login_hello_text">Hello Login Activity</string>
     <string name="activity_main_hello_text">Hello Main Activity</string>
+
+    <string name="activity_login_username">Username</string>
+    <string name="activity_login_login">Login</string>
     <!-- A C T I V I T I E S -->
 
     <!-- F R A G M E N T S -->
