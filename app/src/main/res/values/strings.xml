@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Hacknbreak Snapchat</string>
+
+    <!-- A C T I V I T I E S -->
+    <string name="activity_login_hello_text">Hello Login Activity</string>
+    <string name="activity_main_hello_text">Hello Main Activity</string>
+    <!-- A C T I V I T I E S -->
+
+    <!-- F R A G M E N T S -->
+    <string name="fragment_camera_hello_text">Hello Camera Fragment</string>
+    <string name="fragment_preview_hello_text">Hello Preview Fragment</string>
+    <string name="fragment_friends_list_hello_text">Hello Friends List Fragment</string>
+
+    <string name="fragment_inbox_hello_text">Hello Inbox Fragment</string>
+    <string name="fragment_message_hello_text">Hello Message Fragment</string>
+    <!-- F R A G M E N T S -->
+
+</resources>
