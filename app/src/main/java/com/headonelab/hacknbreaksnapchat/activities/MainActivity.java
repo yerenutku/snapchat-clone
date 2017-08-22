@@ -26,7 +26,7 @@ public class MainActivity extends BaseActivity {
 
     private void loadViewPager() {
         mCameraFragment = CameraFragment.newInstance();
-        mInboxFragment = InboxFragment.newInstance("a","b");
+        mInboxFragment = InboxFragment.newInstance();
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(mInboxFragment);
         fragmentList.add(mCameraFragment);

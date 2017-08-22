@@ -35,6 +35,9 @@ public class InboxFragment extends Fragment implements ClickListener{
     public InboxFragment() {
         // Required empty public constructor
     }
+    public static InboxFragment newInstance(){
+        return new InboxFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
