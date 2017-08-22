@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
-import com.flurgle.camerakit.CameraView;
 import com.headonelab.hacknbreaksnapchat.R;
 import com.headonelab.hacknbreaksnapchat.adapters.MainViewPagerAdapter;
 import com.headonelab.hacknbreaksnapchat.fragments.CameraFragment;
@@ -16,7 +15,6 @@ import java.util.List;
 public class MainActivity extends BaseActivity {
     private CameraFragment mCameraFragment;
     private InboxFragment mInboxFragment;
-    private CameraView mCameraView;
     private ViewPager mViewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +22,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         initViews();
         loadViewPager();
-        mCameraView = mCameraFragment.getCameraView();
     }
 
     private void loadViewPager() {
@@ -44,16 +41,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (mCameraView != null) {
-            mCameraView.start();
-        }
     }
 
     @Override
     protected void onPause() {
-        if (mCameraView != null) {
-            mCameraView.stop();
-        }
         super.onPause();
     }
 }

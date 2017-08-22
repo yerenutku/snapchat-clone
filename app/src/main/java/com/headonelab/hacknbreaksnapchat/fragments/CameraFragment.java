@@ -66,10 +66,6 @@ public class CameraFragment extends Fragment {
         return rootView;
     }
 
-    public CameraView getCameraView() {
-        return cameraView;
-    }
-
     @Override
     public void onPause() {
         cameraView.stop();
