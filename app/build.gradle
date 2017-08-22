@@ -26,6 +26,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.google.firebase:firebase-storage:10.0.1'
+    compile 'com.flurgle:camerakit:0.9.17'
     testCompile 'junit:junit:4.12'
 }
 

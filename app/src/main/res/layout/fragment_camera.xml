@@ -1,14 +1,22 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:camerakit="http://schemas.android.com/apk/res-auto"
     tools:context="com.headonelab.hacknbreaksnapchat.fragments.CameraFragment">
 
-    <TextView
+    <com.flurgle.camerakit.CameraView
+        android:id="@+id/camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        camerakit:ckJpegQuality="80"
+        android:adjustViewBounds="true" />
+    <Button
+        android:id="@+id/btCapture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/fragment_camera_hello_text"/>
+        android:text="Capture"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"/>
 
-</FrameLayout>
+</RelativeLayout>
