@@ -7,5 +7,6 @@ public class Constants {
 
     // firebase values
     public static String FIREBASE_USERS = "FIREBASE_USERS";
+    public static String FIREBASE_MESSAGES = "FIREBASE_MESSAGES";
 
 }

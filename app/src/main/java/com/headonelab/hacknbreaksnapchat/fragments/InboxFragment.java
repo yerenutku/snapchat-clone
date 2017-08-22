@@ -1,109 +1,120 @@
 package com.headonelab.hacknbreaksnapchat.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.headonelab.hacknbreaksnapchat.R;
+import com.headonelab.hacknbreaksnapchat.models.MessageModel;
+import com.headonelab.hacknbreaksnapchat.utils.ClickListener;
+import com.headonelab.hacknbreaksnapchat.utils.Constants;
+import com.headonelab.hacknbreaksnapchat.utils.InboxAdapter;
+import com.headonelab.hacknbreaksnapchat.utils.SharedPreferencesHelper;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link InboxFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link InboxFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class InboxFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.util.ArrayList;
+import java.util.List;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class InboxFragment extends Fragment implements ClickListener{
 
-    private OnFragmentInteractionListener mListener;
+    private DatabaseReference mDatabaseReference;
+    private SharedPreferencesHelper mSharedPreferencesHelper;
+
+    private List<MessageModel> mMessageModels;
+    private RecyclerView mRvInbox;
+    private InboxAdapter mInboxAdapter;
 
     public InboxFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment InboxFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static InboxFragment newInstance(String param1, String param2) {
-        InboxFragment fragment = new InboxFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inbox, container, false);
+        View view = inflater.inflate(R.layout.fragment_inbox, container, false);
+        initViews(view);
+        initFirebase();
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    private void initViews(View view){
+        mRvInbox = view.findViewById(R.id.rv_inbox);
+        mRvInbox.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRvInbox.setHasFixedSize(true);
+        mMessageModels = new ArrayList<>();
+        mInboxAdapter = new InboxAdapter(getContext(), this, mMessageModels);
+        mRvInbox.setAdapter(mInboxAdapter);
+    }
+
+    private void initFirebase(){
+        mSharedPreferencesHelper = new SharedPreferencesHelper(getContext());
+        String username = mSharedPreferencesHelper.getPreferences(Constants.SP_USERNAME, "");
+
+        if(username.equals("")) {
+            // error
         }
+
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_MESSAGES).child(username);
+        mDatabaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                MessageModel messageModel = dataSnapshot.getValue(MessageModel.class);
+                mMessageModels.add(messageModel);
+                mInboxAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                MessageModel messageModel = dataSnapshot.getValue(MessageModel.class);
+                MessageModel tempModel = null;
+
+                for (MessageModel item : mMessageModels) {
+
+                    if (item.getImageName().equals(messageModel.getImageName())) {
+                        tempModel = item;
+                    }
+
+                }
+
+                if (tempModel != null) {
+                    mMessageModels.remove(tempModel);
+                    mInboxAdapter.notifyDataSetChanged();
+                }
+            }
+
+            // region UNNECESSARY
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+            // endregion
+        });
+
+        // dummy data
+        String key = mDatabaseReference.push().getKey();
+         mDatabaseReference.getParent().child("sa").child(key).setValue(new MessageModel("eren", "image_name"));
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void itemClickListener(int position) {
+        // get clicked item's name
+        // download & go to preview page
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

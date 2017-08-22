@@ -14,7 +14,7 @@ public class SharedPreferencesHelper {
     public void setPreferences(String key, String value){
         mSharedPreferences.edit()
                 .putString(key, value)
-                .apply();
+                .commit();
     }
 
     public String getPreferences(String key, String defValue){
