@@ -17,7 +17,7 @@ import com.headonelab.hacknbreaksnapchat.R;
 import com.headonelab.hacknbreaksnapchat.models.MessageModel;
 import com.headonelab.hacknbreaksnapchat.utils.ClickListener;
 import com.headonelab.hacknbreaksnapchat.utils.Constants;
-import com.headonelab.hacknbreaksnapchat.utils.InboxAdapter;
+import com.headonelab.hacknbreaksnapchat.adapters.InboxAdapter;
 import com.headonelab.hacknbreaksnapchat.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;

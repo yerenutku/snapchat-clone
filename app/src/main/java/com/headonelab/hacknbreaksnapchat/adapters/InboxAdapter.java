@@ -1,4 +1,4 @@
-package com.headonelab.hacknbreaksnapchat.utils;
+package com.headonelab.hacknbreaksnapchat.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.headonelab.hacknbreaksnapchat.R;
 import com.headonelab.hacknbreaksnapchat.models.MessageModel;
+import com.headonelab.hacknbreaksnapchat.utils.ClickListener;
 
 import java.util.List;
 
