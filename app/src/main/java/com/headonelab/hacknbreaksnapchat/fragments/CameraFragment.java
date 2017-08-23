@@ -53,6 +53,7 @@ public class CameraFragment extends Fragment {
         cameraView = rootView.findViewById(R.id.camera);
         cameraView.setPermissions(CameraKit.Constants.PERMISSIONS_PICTURE);
         cameraView.setCameraListener(mCameraListener);
+        cameraView.setJpegQuality(50);
 
         btCapture = rootView.findViewById(R.id.ibCapture);
         btCapture.setOnClickListener(new View.OnClickListener() {
