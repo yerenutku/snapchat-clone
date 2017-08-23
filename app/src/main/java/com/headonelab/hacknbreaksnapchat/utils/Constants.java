@@ -9,4 +9,9 @@ public class Constants {
     public static String FIREBASE_USERS = "FIREBASE_USERS";
     public static String FIREBASE_MESSAGES = "FIREBASE_MESSAGES";
 
+    // intent args
+    public static String param_message_sender = "param_message_sender";
+    public static String param_message_name = "param_message_name";
+    public static String param_message_key = "param_message_key";
+
 }

@@ -1,5 +1,6 @@
 package com.headonelab.hacknbreaksnapchat.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,16 +15,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.headonelab.hacknbreaksnapchat.R;
+import com.headonelab.hacknbreaksnapchat.activities.MessageActivity;
+import com.headonelab.hacknbreaksnapchat.adapters.InboxAdapter;
 import com.headonelab.hacknbreaksnapchat.models.MessageModel;
 import com.headonelab.hacknbreaksnapchat.utils.ClickListener;
 import com.headonelab.hacknbreaksnapchat.utils.Constants;
-import com.headonelab.hacknbreaksnapchat.adapters.InboxAdapter;
 import com.headonelab.hacknbreaksnapchat.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InboxFragment extends Fragment implements ClickListener{
+public class InboxFragment extends Fragment implements ClickListener {
 
     private DatabaseReference mDatabaseReference;
     private SharedPreferencesHelper mSharedPreferencesHelper;
@@ -35,7 +37,8 @@ public class InboxFragment extends Fragment implements ClickListener{
     public InboxFragment() {
         // Required empty public constructor
     }
-    public static InboxFragment newInstance(){
+
+    public static InboxFragment newInstance() {
         return new InboxFragment();
     }
 
@@ -48,8 +51,8 @@ public class InboxFragment extends Fragment implements ClickListener{
         return view;
     }
 
-    private void initViews(View view){
-        mRvInbox = view.findViewById(R.id.rv_inbox);
+    private void initViews(View view) {
+        mRvInbox = (RecyclerView) view.findViewById(R.id.rv_inbox);
         mRvInbox.setLayoutManager(new LinearLayoutManager(getContext()));
         mRvInbox.setHasFixedSize(true);
         mMessageModels = new ArrayList<>();
@@ -57,11 +60,11 @@ public class InboxFragment extends Fragment implements ClickListener{
         mRvInbox.setAdapter(mInboxAdapter);
     }
 
-    private void initFirebase(){
+    private void initFirebase() {
         mSharedPreferencesHelper = new SharedPreferencesHelper(getContext());
         String username = mSharedPreferencesHelper.getPreferences(Constants.SP_USERNAME, "");
 
-        if(username.equals("")) {
+        if (username.equals("")) {
             // error
         }
 
@@ -98,10 +101,12 @@ public class InboxFragment extends Fragment implements ClickListener{
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
             }
+
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -111,13 +116,18 @@ public class InboxFragment extends Fragment implements ClickListener{
 
         // dummy data
         String key = mDatabaseReference.push().getKey();
-         mDatabaseReference.getParent().child("sa").child(key).setValue(new MessageModel("eren", "image_name"));
+        mDatabaseReference.getParent().child("yasin").child(key).setValue(new MessageModel(key, "eren", "img"));
     }
 
     @Override
     public void itemClickListener(int position) {
-        // get clicked item's name
-        // download & go to preview page
+        MessageModel messageModel = mMessageModels.get(position);
+
+        Intent intent = new Intent(getContext(), MessageActivity.class);
+        intent.putExtra(Constants.param_message_name, messageModel.getImageName());
+        intent.putExtra(Constants.param_message_sender, messageModel.getFromWho());
+        intent.putExtra(Constants.param_message_key, messageModel.getKey());
+        startActivity(intent);
     }
 
 }

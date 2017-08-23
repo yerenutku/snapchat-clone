@@ -2,14 +2,23 @@ package com.headonelab.hacknbreaksnapchat.models;
 
 public class MessageModel {
 
-    private String fromWho, imageName;
+    private String key, fromWho, imageName;
 
     public MessageModel() {
     }
 
-    public MessageModel(String fromWho, String imageName) {
+    public MessageModel(String key, String fromWho, String imageName) {
+        this.key = key;
         this.fromWho = fromWho;
         this.imageName = imageName;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getFromWho() {
