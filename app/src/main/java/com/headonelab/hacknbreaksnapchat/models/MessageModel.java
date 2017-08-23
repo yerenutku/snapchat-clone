@@ -2,15 +2,15 @@ package com.headonelab.hacknbreaksnapchat.models;
 
 public class MessageModel {
 
-    private String key, fromWho, imageName;
+    private String key, fromWho, url;
 
     public MessageModel() {
     }
 
-    public MessageModel(String key, String fromWho, String imageName) {
+    public MessageModel(String key, String fromWho, String url) {
         this.key = key;
         this.fromWho = fromWho;
-        this.imageName = imageName;
+        this.url = url;
     }
 
     public String getKey() {
@@ -29,11 +29,11 @@ public class MessageModel {
         this.fromWho = fromWho;
     }
 
-    public String getImageName() {
-        return imageName;
+    public String getUrl() {
+        return url;
     }
 
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

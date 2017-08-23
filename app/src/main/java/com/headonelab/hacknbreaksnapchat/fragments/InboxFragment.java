@@ -84,7 +84,7 @@ public class InboxFragment extends Fragment implements ClickListener {
 
                 for (MessageModel item : mMessageModels) {
 
-                    if (item.getImageName().equals(messageModel.getImageName())) {
+                    if (item.getUrl().equals(messageModel.getUrl())) {
                         tempModel = item;
                     }
 
@@ -115,8 +115,8 @@ public class InboxFragment extends Fragment implements ClickListener {
         });
 
         // dummy data
-        String key = mDatabaseReference.push().getKey();
-        mDatabaseReference.getParent().child("yasin").child(key).setValue(new MessageModel(key, "eren", "img"));
+        //String key = mDatabaseReference.push().getKey();
+        //mDatabaseReference.getParent().child("yasin").child(key).setValue(new MessageModel(key, "eren", "img"));
     }
 
     @Override
@@ -124,7 +124,7 @@ public class InboxFragment extends Fragment implements ClickListener {
         MessageModel messageModel = mMessageModels.get(position);
 
         Intent intent = new Intent(getContext(), MessageActivity.class);
-        intent.putExtra(Constants.param_message_name, messageModel.getImageName());
+        intent.putExtra(Constants.param_message_url, messageModel.getUrl());
         intent.putExtra(Constants.param_message_sender, messageModel.getFromWho());
         intent.putExtra(Constants.param_message_key, messageModel.getKey());
         startActivity(intent);

@@ -1,15 +1,12 @@
 package com.headonelab.hacknbreaksnapchat.activities;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -29,6 +26,9 @@ public class MessageActivity extends BaseActivity {
 
     private CountDownTimer mCountDownTimer;
     private int millisInFuture = 7000, countDownInterval = 1000;
+
+    private DatabaseReference recordRef;
+    private StorageReference messageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,35 +53,27 @@ public class MessageActivity extends BaseActivity {
         mTvTimer = (TextView) findViewById(R.id.tv_timer);
 
         if (getIntent() != null) {
-            String messageName = getIntent().getStringExtra(Constants.param_message_name);
+            String messageUrl = getIntent().getStringExtra(Constants.param_message_url);
             String messageKey = getIntent().getStringExtra(Constants.param_message_key);
             String messageSender = getIntent().getStringExtra(Constants.param_message_sender);
             mTvSender.setText(messageSender);
 
-            StorageReference messageRef = mStorageReference.child("messages").child(messageName + ".png");
-            DatabaseReference recordRef = mDatabaseReference.child(messageKey);
+            messageRef = mStorageReference.child("messages").child(messageKey);
+            recordRef = mDatabaseReference.child(messageKey);
 
-            getMessage(messageRef);
-            deleteMessage(messageRef, recordRef);
+            getMessage(messageUrl);
+            deleteMessageOnDatabase();
+            mCountDownTimer.start();
         }
 
     }
 
-    private void getMessage(StorageReference messageRef) {
-        messageRef.getDownloadUrl().addOnSuccessListener(this, new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Log.i("StorageSucces", "Download URL : " + uri);
-
-                Glide.with(MessageActivity.this)
-                        .load(uri)
-                        .centerCrop()
-                        //.override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                        .into(mIvMessageContainer);
-
-                mCountDownTimer.start();
-            }
-        });
+    private void getMessage(String messageUrl) {
+        Glide.with(MessageActivity.this)
+                .load(messageUrl)
+                .centerCrop()
+                //.override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .into(mIvMessageContainer);
 
     }
 
@@ -95,13 +87,17 @@ public class MessageActivity extends BaseActivity {
             @Override
             public void onFinish() {
                 finish();
+                deleteMessageOnStorage();
             }
         };
     }
 
-    private void deleteMessage(StorageReference messageRef, DatabaseReference recordRef) {
-        //messageRef.delete();
+    private void deleteMessageOnDatabase() {
         recordRef.removeValue();
+    }
+
+    private void deleteMessageOnStorage(){
+        messageRef.delete();
     }
 
 }
