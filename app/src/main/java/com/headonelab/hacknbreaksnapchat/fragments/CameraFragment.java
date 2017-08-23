@@ -1,12 +1,10 @@
 package com.headonelab.hacknbreaksnapchat.fragments;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +14,7 @@ import com.flurgle.camerakit.CameraKit;
 import com.flurgle.camerakit.CameraListener;
 import com.flurgle.camerakit.CameraView;
 import com.headonelab.hacknbreaksnapchat.R;
+import com.headonelab.hacknbreaksnapchat.activities.TakenImagePreviewActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,8 +81,9 @@ public class CameraFragment extends Fragment {
         @Override
         public void onPictureTaken(byte[] picture) {
             super.onPictureTaken(picture);
-            Bitmap result = BitmapFactory.decodeByteArray(picture, 0, picture.length);
-            Log.d("CAPTURED BITMAP: ", result + "");
+            Intent intent = new Intent(getContext(), TakenImagePreviewActivity.class);
+            intent.putExtra(TakenImagePreviewActivity.KEY_PREVIEW_BYTE_ARRAY,picture);
+            startActivity(intent);
         }
     };
 

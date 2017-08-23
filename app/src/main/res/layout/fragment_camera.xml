@@ -9,8 +9,9 @@
         android:id="@+id/camera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        camerakit:ckMethod="still"
         android:adjustViewBounds="true"
-        camerakit:ckJpegQuality="80" />
+        camerakit:ckJpegQuality="100" />
 
     <ImageButton
         android:id="@+id/ibCapture"
