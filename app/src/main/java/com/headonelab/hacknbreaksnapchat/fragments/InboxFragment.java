@@ -1,5 +1,6 @@
 package com.headonelab.hacknbreaksnapchat.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.headonelab.hacknbreaksnapchat.R;
+import com.headonelab.hacknbreaksnapchat.activities.MessageActivity;
 import com.headonelab.hacknbreaksnapchat.adapters.InboxAdapter;
 import com.headonelab.hacknbreaksnapchat.models.MessageModel;
 import com.headonelab.hacknbreaksnapchat.utils.ClickListener;
@@ -50,7 +52,7 @@ public class InboxFragment extends Fragment implements ClickListener {
     }
 
     private void initViews(View view) {
-        mRvInbox = view.findViewById(R.id.rv_inbox);
+        mRvInbox = (RecyclerView) view.findViewById(R.id.rv_inbox);
         mRvInbox.setLayoutManager(new LinearLayoutManager(getContext()));
         mRvInbox.setHasFixedSize(true);
         mMessageModels = new ArrayList<>();
@@ -113,14 +115,19 @@ public class InboxFragment extends Fragment implements ClickListener {
         });
 
         // dummy data
-        //String key = mDatabaseReference.push().getKey();
-        //mDatabaseReference.getParent().child("sa").child(key).setValue(new MessageModel(key, "eren", "image_name"));
+        String key = mDatabaseReference.push().getKey();
+        mDatabaseReference.getParent().child("yasin").child(key).setValue(new MessageModel(key, "eren", "img"));
     }
 
     @Override
     public void itemClickListener(int position) {
-        // get clicked item's name
-        // download & go to preview page
+        MessageModel messageModel = mMessageModels.get(position);
+
+        Intent intent = new Intent(getContext(), MessageActivity.class);
+        intent.putExtra(Constants.param_message_name, messageModel.getImageName());
+        intent.putExtra(Constants.param_message_sender, messageModel.getFromWho());
+        intent.putExtra(Constants.param_message_key, messageModel.getKey());
+        startActivity(intent);
     }
 
 }
