@@ -37,7 +37,7 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.MyViewHolder
         MessageModel messageModel = mMessageModelList.get(position);
 
         holder.mTvSender.setText(messageModel.getFromWho());
-        holder.mTvName.setText(messageModel.getImageName());
+        holder.mTvUrl.setText(messageModel.getUrl());
     }
 
     @Override
@@ -46,13 +46,13 @@ public class InboxAdapter extends RecyclerView.Adapter<InboxAdapter.MyViewHolder
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView mTvSender, mTvName;
+        private TextView mTvSender, mTvUrl;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
             mTvSender = itemView.findViewById(R.id.tv_message_sender);
-            mTvName = itemView.findViewById(R.id.tv_message_name);
+            mTvUrl = itemView.findViewById(R.id.tv_message_url);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
