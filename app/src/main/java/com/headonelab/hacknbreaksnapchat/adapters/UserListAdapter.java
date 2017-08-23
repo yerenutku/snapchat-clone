@@ -42,7 +42,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.MyView
         return mUserList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView mTvName;
 
         public MyViewHolder(View itemView) {

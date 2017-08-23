@@ -22,7 +22,6 @@ import com.google.firebase.storage.UploadTask;
 import com.headonelab.hacknbreaksnapchat.R;
 import com.headonelab.hacknbreaksnapchat.models.MessageModel;
 import com.headonelab.hacknbreaksnapchat.utils.Constants;
-import com.headonelab.hacknbreaksnapchat.utils.SharedPreferencesHelper;
 
 public class TakenImagePreviewActivity extends AppCompatActivity {
     public static final String KEY_PREVIEW_BYTE_ARRAY = "byte_array";
@@ -35,8 +34,6 @@ public class TakenImagePreviewActivity extends AppCompatActivity {
         ivPreview = (ImageView) findViewById(R.id.ivPreview);
         ivSend = (ImageView) findViewById(R.id.ivSend);
 
-        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(this);
-        username = sharedPreferencesHelper.getPreferences(Constants.SP_USERNAME, "");
 
         if (getIntent() != null && getIntent().hasExtra(KEY_PREVIEW_BYTE_ARRAY)) {
             byte[] picture = getIntent().getByteArrayExtra(KEY_PREVIEW_BYTE_ARRAY);
@@ -46,7 +43,6 @@ public class TakenImagePreviewActivity extends AppCompatActivity {
                     .load(picture)
                     .into(ivPreview);
 
-            uploadMessage(picture, "yasin");
         }
         ivSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,27 +57,4 @@ public class TakenImagePreviewActivity extends AppCompatActivity {
         });
     }
 
-    private void uploadMessage(byte[] messageBytes, final String messageReceiver){
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("messages");
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-                .getReference(Constants.FIREBASE_MESSAGES);
-        final String key = databaseReference.push().getKey();
-
-        UploadTask uploadTask = storageReference.child(key).putBytes(messageBytes);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-                Log.d("onFailure", exception.getMessage());
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-
-                databaseReference.child(messageReceiver).child(key).setValue(new MessageModel(key, username, downloadUrl.toString()));
-            }
-        });
-    }
 }
