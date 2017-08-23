@@ -14,16 +14,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.headonelab.hacknbreaksnapchat.R;
+import com.headonelab.hacknbreaksnapchat.adapters.InboxAdapter;
 import com.headonelab.hacknbreaksnapchat.models.MessageModel;
 import com.headonelab.hacknbreaksnapchat.utils.ClickListener;
 import com.headonelab.hacknbreaksnapchat.utils.Constants;
-import com.headonelab.hacknbreaksnapchat.adapters.InboxAdapter;
 import com.headonelab.hacknbreaksnapchat.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InboxFragment extends Fragment implements ClickListener{
+public class InboxFragment extends Fragment implements ClickListener {
 
     private DatabaseReference mDatabaseReference;
     private SharedPreferencesHelper mSharedPreferencesHelper;
@@ -35,7 +35,8 @@ public class InboxFragment extends Fragment implements ClickListener{
     public InboxFragment() {
         // Required empty public constructor
     }
-    public static InboxFragment newInstance(){
+
+    public static InboxFragment newInstance() {
         return new InboxFragment();
     }
 
@@ -48,7 +49,7 @@ public class InboxFragment extends Fragment implements ClickListener{
         return view;
     }
 
-    private void initViews(View view){
+    private void initViews(View view) {
         mRvInbox = view.findViewById(R.id.rv_inbox);
         mRvInbox.setLayoutManager(new LinearLayoutManager(getContext()));
         mRvInbox.setHasFixedSize(true);
@@ -57,11 +58,11 @@ public class InboxFragment extends Fragment implements ClickListener{
         mRvInbox.setAdapter(mInboxAdapter);
     }
 
-    private void initFirebase(){
+    private void initFirebase() {
         mSharedPreferencesHelper = new SharedPreferencesHelper(getContext());
         String username = mSharedPreferencesHelper.getPreferences(Constants.SP_USERNAME, "");
 
-        if(username.equals("")) {
+        if (username.equals("")) {
             // error
         }
 
@@ -98,10 +99,12 @@ public class InboxFragment extends Fragment implements ClickListener{
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
             }
+
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -110,8 +113,8 @@ public class InboxFragment extends Fragment implements ClickListener{
         });
 
         // dummy data
-        String key = mDatabaseReference.push().getKey();
-         mDatabaseReference.getParent().child("sa").child(key).setValue(new MessageModel("eren", "image_name"));
+        //String key = mDatabaseReference.push().getKey();
+        //mDatabaseReference.getParent().child("sa").child(key).setValue(new MessageModel(key, "eren", "image_name"));
     }
 
     @Override
