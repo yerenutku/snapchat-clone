@@ -1,22 +1,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:camerakit="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:camerakit="http://schemas.android.com/apk/res-auto"
     tools:context="com.headonelab.hacknbreaksnapchat.fragments.CameraFragment">
 
     <com.flurgle.camerakit.CameraView
         android:id="@+id/camera"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        camerakit:ckJpegQuality="80"
-        android:adjustViewBounds="true" />
-    <Button
-        android:id="@+id/btCapture"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        camerakit:ckJpegQuality="80" />
+
+    <ImageButton
+        android:id="@+id/ibCapture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Capture"
+        android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_camera_button" />
 
 </RelativeLayout>

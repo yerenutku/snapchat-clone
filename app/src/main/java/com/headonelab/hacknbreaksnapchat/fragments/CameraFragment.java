@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.flurgle.camerakit.CameraKit;
 import com.flurgle.camerakit.CameraListener;
@@ -27,7 +27,7 @@ import com.headonelab.hacknbreaksnapchat.R;
  */
 public class CameraFragment extends Fragment {
     private CameraView cameraView;
-    private Button btCapture;
+    private ImageButton btCapture;
     private OnFragmentInteractionListener mListener;
 
     public CameraFragment() {
@@ -55,7 +55,7 @@ public class CameraFragment extends Fragment {
         cameraView.setPermissions(CameraKit.Constants.PERMISSIONS_PICTURE);
         cameraView.setCameraListener(mCameraListener);
 
-        btCapture = rootView.findViewById(R.id.btCapture);
+        btCapture = rootView.findViewById(R.id.ibCapture);
         btCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
