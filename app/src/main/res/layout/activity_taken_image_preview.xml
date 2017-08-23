@@ -8,8 +8,18 @@
     <ImageView
         android:id="@+id/ivPreview"
         android:layout_width="match_parent"
-        android:adjustViewBounds="true"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_camera_button"/>
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_camera_button" />
+
+    <ImageView
+        android:id="@+id/ivSend"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_send" />
 
 </RelativeLayout>

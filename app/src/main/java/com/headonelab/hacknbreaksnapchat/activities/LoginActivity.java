@@ -52,7 +52,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         String username = mEtUsername.getText().toString();
 
         if (!username.isEmpty()) {
-            mDatabaseReference.child(username).setValue(true);
+            mDatabaseReference.child(username).setValue(username);
             mSharedPreferencesHelper.setPreferences(Constants.SP_USERNAME, username);
 
             startActivity(new Intent(this, MainActivity.class));

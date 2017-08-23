@@ -17,10 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activities.MainActivity"/>
-        <activity android:name=".activities.MessageActivity"/>
-        <activity android:name=".activities.TakenImagePreviewActivity"/>
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.MessageActivity" />
+        <activity android:name=".activities.TakenImagePreviewActivity" />
+        <activity android:name=".activities.SendUserListActivity"></activity>
     </application>
 
 </manifest>
