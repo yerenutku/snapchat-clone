@@ -107,6 +107,8 @@ public class SendUserListActivity extends AppCompatActivity implements ClickList
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
 
                 databaseReference.child(messageReceiver).child(key).setValue(new MessageModel(key, username, downloadUrl.toString()));
+                setResult(RESULT_OK);
+                finish();
             }
         });
     }
