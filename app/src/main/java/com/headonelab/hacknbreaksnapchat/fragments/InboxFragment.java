@@ -9,26 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.headonelab.hacknbreaksnapchat.R;
 import com.headonelab.hacknbreaksnapchat.activities.MessageActivity;
 import com.headonelab.hacknbreaksnapchat.adapters.InboxAdapter;
 import com.headonelab.hacknbreaksnapchat.models.MessageModel;
 import com.headonelab.hacknbreaksnapchat.utils.ClickListener;
 import com.headonelab.hacknbreaksnapchat.utils.Constants;
-import com.headonelab.hacknbreaksnapchat.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class InboxFragment extends Fragment implements ClickListener {
 
-    private DatabaseReference mDatabaseReference;
-    private SharedPreferencesHelper mSharedPreferencesHelper;
+    // TODO : create databaseRef and sharedPref variables
 
     private List<MessageModel> mMessageModels;
     private RecyclerView mRvInbox;
@@ -52,7 +45,7 @@ public class InboxFragment extends Fragment implements ClickListener {
     }
 
     private void initViews(View view) {
-        mRvInbox = (RecyclerView) view.findViewById(R.id.rv_inbox);
+        mRvInbox = view.findViewById(R.id.rv_inbox);
         mRvInbox.setLayoutManager(new LinearLayoutManager(getContext()));
         mRvInbox.setHasFixedSize(true);
         mMessageModels = new ArrayList<>();
@@ -61,62 +54,17 @@ public class InboxFragment extends Fragment implements ClickListener {
     }
 
     private void initFirebase() {
-        mSharedPreferencesHelper = new SharedPreferencesHelper(getContext());
-        String username = mSharedPreferencesHelper.getPreferences(Constants.SP_USERNAME, "");
+        // TODO : init sp, get username
 
-        if (username.equals("")) {
-            // error
-        }
+        // TODO : init databaseRef from getRef = messages and child = username
+        // TODO : add childEventListener for listen changes
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_MESSAGES).child(username);
-        mDatabaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                MessageModel messageModel = dataSnapshot.getValue(MessageModel.class);
-                mMessageModels.add(messageModel);
-                mInboxAdapter.notifyDataSetChanged();
-            }
+        // TODO : getVal and add to list, notify adapter
+        // TODO : getVal, iterate, get it on temp value, remove from list and notify adapter
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                MessageModel messageModel = dataSnapshot.getValue(MessageModel.class);
-                MessageModel tempModel = null;
+        // TODO : to add dummy data, push and getKey from databaseRef
+        // TODO : ref.getparent, child who, child key, setval with messageModel
 
-                for (MessageModel item : mMessageModels) {
-
-                    if (item.getUrl().equals(messageModel.getUrl())) {
-                        tempModel = item;
-                    }
-
-                }
-
-                if (tempModel != null) {
-                    mMessageModels.remove(tempModel);
-                    mInboxAdapter.notifyDataSetChanged();
-                }
-            }
-
-            // region UNNECESSARY
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-            // endregion
-        });
-
-        // dummy data
-        //String key = mDatabaseReference.push().getKey();
-        //mDatabaseReference.getParent().child("yasin").child(key).setValue(new MessageModel(key, "eren", "img"));
     }
 
     @Override
